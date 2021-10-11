@@ -1,8 +1,12 @@
 import urllib.parse
 import requests
+from datetime import datetime, timedelta
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
 
 main_api = "https://www.mapquestapi.com/directions/v2/route?"
 key = "qfXMh1FJl7sDlVKeJ93Xkmw8jGD3zxhn"
+
 
 while True:
     orig = input("Starting Location: ")
@@ -21,7 +25,15 @@ while True:
         print("API Status: " + str(json_status) + " = A successful route call.\n")
         print("================================")
         print("Directions from " + (orig) + " to " + (dest))
+        print("Time Started: " + current_time )
         print("Trip Duration: "+ (json_data["route"]["formattedTime"]))
+        timeList = [current_time, (json_data["route"]["formattedTime"])]
+        mysum = timedelta()
+        for i in timeList:
+            (h, m, s) = i.split(':')
+            d =timedelta(hours=int(h), minutes=int(m), seconds=int(s))
+            mysum += d
+        print("Time Ended: " + str(mysum))
         print("Kilometers: "+ str("{:.2f}".format((json_data["route"]["distance"])*1.61)))
         print("Fuel Used (Ltr): "+ str("{:.2f}".format((json_data["route"]["fuelUsed"])*3.78)))
         print("=======================================")
