@@ -4,6 +4,20 @@ from datetime import datetime, timedelta
 now = datetime.now()
 current_time = now.strftime("%H:%M:%S")
 
+# variable to use to determine PM and AM
+current_hour_str = now.strftime("%H")
+standard_time = int(current_hour_str)
+current_min = now.strftime("%M")
+
+
+if(standard_time < 12):
+    time = str(standard_time) + ":" + str(current_hour_str) + " AM"
+else:
+    pmTime = standard_time - 12
+    time = str(pmTime) + ":" + str(current_hour_str) + " PM"
+
+
+
 main_api = "https://www.mapquestapi.com/directions/v2/route?"
 key = "qfXMh1FJl7sDlVKeJ93Xkmw8jGD3zxhn"
 
@@ -25,14 +39,16 @@ while True:
         print("API Status: " + str(json_status) + " = A successful route call.\n")
         print("================================")
         print("Directions from " + (orig) + " to " + (dest))
-        print("Time Started: " + current_time )
+        print("Time Started: " + time)
         print("Trip Duration: "+ (json_data["route"]["formattedTime"]))
         timeList = [current_time, (json_data["route"]["formattedTime"])]
+
         mysum = timedelta()
         for i in timeList:
             (h, m, s) = i.split(':')
             d =timedelta(hours=int(h), minutes=int(m), seconds=int(s))
             mysum += d
+
         print("Time Ended: " + str(mysum))
         print("Kilometers: "+ str("{:.2f}".format((json_data["route"]["distance"])*1.61)))
         print("Fuel Used (Ltr): "+ str("{:.2f}".format((json_data["route"]["fuelUsed"])*3.78)))
