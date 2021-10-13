@@ -9,13 +9,14 @@ current_hour_str = now.strftime("%H")
 standard_time = int(current_hour_str)
 current_min = now.strftime("%M")
 
-
+# convert to STANDARDTIME time started
 if(standard_time < 12):
     time = str(standard_time) + ":" + str(current_hour_str) + " AM"
 else:
     pmTime = standard_time - 12
     time = str(pmTime) + ":" + str(current_hour_str) + " PM"
 
+timeEnd = []
 
 
 main_api = "https://www.mapquestapi.com/directions/v2/route?"
@@ -38,9 +39,34 @@ while True:
     if json_status == 0:
         print("API Status: " + str(json_status) + " = A successful route call.\n")
         print("================================")
-        print("Directions from " + (orig) + " to " + (dest))
+        print("Directions from " + (orig.upper()) + " to " + (dest.upper()))
         print("Time Started: " + time)
-        print("Trip Duration: "+ (json_data["route"]["formattedTime"]))
+
+        #convert to trip duration to string and split into a list
+        strDuration = str((json_data["route"]["formattedTime"]))   
+
+        tripDuration = strDuration.split(":")
+        tripDurationHour = str(tripDuration[0])
+        tripDurationMinutes = str(tripDuration[1])
+        tripDurationSeconds = str(tripDuration[2])
+
+        #condition to print necessary time format
+        if (tripDurationHour != "00"):
+            tripDurationHour = tripDurationHour + " Hours "
+        else:
+            tripDurationHour = ""
+
+        if (tripDurationMinutes != "00"):
+            tripDurationMinutes = tripDurationMinutes + " Minutes "
+        else:
+            tripDurationMinutes = " "
+
+        if (tripDurationSeconds != "00"):
+            tripDurationSeconds = tripDurationSeconds + " Seconds"
+        else:
+            tripDurationSeconds = " "
+
+        print("Trip Duration: "+ tripDurationHour + tripDurationMinutes + tripDurationSeconds)
         timeList = [current_time, (json_data["route"]["formattedTime"])]
 
         mysum = timedelta()
@@ -48,8 +74,19 @@ while True:
             (h, m, s) = i.split(':')
             d =timedelta(hours=int(h), minutes=int(m), seconds=int(s))
             mysum += d
+ 
 
-        print("Time Ended: " + str(mysum))
+        # convert to STANDARDTIME time ended
+        x = str(mysum)
+        timeEnd = x.split(":")
+
+        if(int(timeEnd[0]) < 12):
+            timeFinalEnd = str(timeEnd[0]) + ":" + str(timeEnd[1]) + " AM"
+        else:
+            pmTimeEnd = int(timeEnd[0]) - 12
+            timeFinalEnd =  str(pmTimeEnd) + ":" + str(timeEnd[1]) + " PM"
+
+        print("Time Ended: " + timeFinalEnd)
         print("Kilometers: "+ str("{:.2f}".format((json_data["route"]["distance"])*1.61)))
         print("Fuel Used (Ltr): "+ str("{:.2f}".format((json_data["route"]["fuelUsed"])*3.78)))
         print("=======================================")
