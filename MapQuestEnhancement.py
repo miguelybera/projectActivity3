@@ -68,7 +68,7 @@ while True:
         else:
             tripDurationSeconds = " "
 
-        print("E.T.A.: "+ tripDurationHour + tripDurationMinutes + tripDurationSeconds)
+        print("Time duration: "+ tripDurationHour + tripDurationMinutes + tripDurationSeconds)
         timeList = [current_time, (json_data["route"]["formattedTime"])]
 
         mysum = timedelta()
@@ -88,8 +88,8 @@ while True:
             pmTimeEnd = int(timeEnd[0]) - 12
             timeFinalEnd =  str(pmTimeEnd) + ":" + str(timeEnd[1]) + " PM"
         #display time ended
-        print("Time Ended: " + timeFinalEnd)
-        
+        print("E.T.A.: " + timeFinalEnd)
+
         print("Kilometers: "+ str("{:.2f}".format((json_data["route"]["distance"])*1.61)))
         print("Fuel Used (Ltr): "+ str("{:.2f}".format((json_data["route"]["fuelUsed"])*3.78)))
         print("=======================================")
