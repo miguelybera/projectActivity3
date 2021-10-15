@@ -42,11 +42,11 @@ while True:
         print("API Status: " + str(json_status) + " = A successful route call.\n")
         print("================================")
         print("Directions from " + (orig.upper()) + " to " + (dest.upper()))
+            #display time started
         print("Time Started: " + time)
 
         #convert to trip duration to string and split into a list
         strDuration = str((json_data["route"]["formattedTime"]))   
-
         tripDuration = strDuration.split(":")
         tripDurationHour = str(tripDuration[0])
         tripDurationMinutes = str(tripDuration[1])
@@ -68,7 +68,7 @@ while True:
         else:
             tripDurationSeconds = " "
 
-        print("Trip Duration: "+ tripDurationHour + tripDurationMinutes + tripDurationSeconds)
+        print("E.T.A.: "+ tripDurationHour + tripDurationMinutes + tripDurationSeconds)
         timeList = [current_time, (json_data["route"]["formattedTime"])]
 
         mysum = timedelta()
@@ -87,8 +87,9 @@ while True:
         else:
             pmTimeEnd = int(timeEnd[0]) - 12
             timeFinalEnd =  str(pmTimeEnd) + ":" + str(timeEnd[1]) + " PM"
-
+        #display time ended
         print("Time Ended: " + timeFinalEnd)
+        
         print("Kilometers: "+ str("{:.2f}".format((json_data["route"]["distance"])*1.61)))
         print("Fuel Used (Ltr): "+ str("{:.2f}".format((json_data["route"]["fuelUsed"])*3.78)))
         print("=======================================")
