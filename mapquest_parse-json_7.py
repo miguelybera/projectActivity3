@@ -11,10 +11,10 @@ current_min = now.strftime("%M")
 
 # convert to STANDARDTIME time started
 if(standard_time < 12):
-    time = str(standard_time) + ":" + str(current_hour_str) + " AM"
+    time = str(standard_time) + ":" + str(current_min) + " AM"
 else:
     pmTime = standard_time - 12
-    time = str(pmTime) + ":" + str(current_hour_str) + " PM"
+    time = str(pmTime) + ":" + str(current_min) + " PM"
 
 timeEnd = []
 
@@ -23,6 +23,8 @@ main_api = "https://www.mapquestapi.com/directions/v2/route?"
 key = "qfXMh1FJl7sDlVKeJ93Xkmw8jGD3zxhn"
 
 
+
+# loop the program; choice to execute program again or terminate
 while True:
     orig = input("Starting Location: ")
     if orig == "quit" or orig == "q":
