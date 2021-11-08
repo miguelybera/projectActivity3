@@ -20,7 +20,7 @@ timeEnd = []
 
 
 main_api = "https://www.mapquestapi.com/directions/v2/route?"
-secondary_api = "http://www.mapquestapi.com/traffic/v2/incidents?"
+incident_api = "http://www.mapquestapi.com/traffic/v2/incidents?"
 key = "qfXMh1FJl7sDlVKeJ93Xkmw8jGD3zxhn"
 
 
@@ -45,10 +45,9 @@ while True:
     ullng = str(json_data["route"]["boundingBox"]["ul"]["lng"])
     ullat = str(json_data["route"]["boundingBox"]["ul"]["lat"])
     setLoc = lrlat + "," + lrlng + "," + ullat +","+ ullng 
-    url2 = secondary_api + urllib.parse.urlencode({"key":key, "boundingBox": setLoc})
-    json_data2 = requests.get(url2).json()
-    json_status2 = json_data["info"]["statuscode"]
-    check = json_data2["incidents"]
+    incident_url = incident_api + urllib.parse.urlencode({"key":key, "boundingBox": setLoc})
+    incident_json_data = requests.get(incident_url).json()
+    incidents = incident_json_data["incidents"]
 
     if json_status == 0:
         print("API Status: " + str(json_status) + " = A successful route call.\n")
@@ -120,11 +119,11 @@ while True:
         print("For Staus Code: " + str(json_status) + "; Refer to:")
         print("https://developer.mapquest.com/documentation/directions-api/status-codes")
         print("************************************************************************\n")
-    if not check:
+    if not incidents:
       print("\nNo incidents found within the route!\n")
     else:
       print("\nIncidents nearby " + (orig) + " to " + (dest) + "\n")
-      for each in json_data2["incidents"]:
+      for each in incident_json_data["incidents"]:
         print("\n")
         print((each["shortDesc"]))
 
