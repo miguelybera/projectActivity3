@@ -12,5 +12,5 @@ setup(
         "Programming Language :: Python :: 3"
     ],
     install_requires=["click", "pytz"],
-    entry_points={"console_scripts": ["MapQuestEnhancement = src.main:main"]},
+    entry_points={"console_scripts": ["MapQuestEnhancement = src.MapQuestEnhancement:MapQuestEnhancement"]},
 )
